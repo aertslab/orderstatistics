@@ -1,0 +1,26 @@
+<project default="buildOrderStatistics">
+  <target name="compile">
+    <javac srcdir="." />
+  </target>
+  
+  <target name="jar" depends="compile">
+     <delete file="OrderStatistics.jar"/>
+     <delete file="MANIFEST.MF"/>
+     <property name="version.num" value="1.00"/>
+     <buildnumber file="build.num"/>
+     
+     <manifest file="MANIFEST.MF">
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="OrderStatistics"/>
+        <attribute name="Implementation-Version" value="${version.num}-b${build.number}"/>
+    </manifest>
+  
+      <jar destfile="OrderStatistics.jar"
+           basedir="."
+           includes="**/*.class"
+           manifest="MANIFEST.MF"
+           />
+  </target>
+  
+  <target name="buildOrderStatistics" depends="compile,jar" />
+</project>
