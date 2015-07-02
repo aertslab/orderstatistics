@@ -70,14 +70,22 @@ public class OrderStatistics {
             }
         }
 
-        private static Double parseRankRatio(final String ratio) throws RuntimeException {
-            if (ratio.equalsIgnoreCase("NAN") || ratio.equalsIgnoreCase("NA")) {
+        private static Double parseRankRatio(final String rankRatioString) throws RuntimeException {
+            if (rankRatioString.equalsIgnoreCase("NAN") || rankRatioString.equalsIgnoreCase("NA")) {
                 return Double.NaN;
             }
             try {
-                return new Double(ratio);
+                Double rankRatio = new Double(rankRatioString);
+                if (rankRatio <= 0.0 || rankRatio > 1.0) {
+                    throw new RuntimeException(
+                            "\nERROR: Invalid rank ratio: \"" + rankRatioString + "\".\n" +
+                            "       Rank ratio value must be greater than 0.0 and smaller or equal to 1.0 (or \"NAN\" or \"NA\").\n");
+                }
+                return rankRatio;
             } catch (NumberFormatException e) {
-                throw new RuntimeException("Invalid rank ratio \"" + ratio + "\".");
+                throw new RuntimeException(
+                        "\nERROR: Invalid rank ratio: \"" + rankRatioString + "\".\n" +
+                        "       Rank ratio value must be greater than 0.0 and smaller or equal to 1.0 (or \"NAN\" or \"NA\").\n");
             }
         }
 
