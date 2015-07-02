@@ -6,7 +6,12 @@ import java.util.*;
 public class OrderStatistics {
     public static void main(final String[] args) {
         if (args.length < 1) {
-            System.err.println("Wrong number of input arguments.");
+            System.err.println(
+                    "\nUsage: java -jar OrderStatistics.jar rank_ratio_1.rr <rank_ratio_2.rr> ... <rank_ratio_X.rr>\n" +
+                    "\nRank ratio file format:\n" +
+                    "    - column 1:    identifier\n" +
+                    "    - column 2-n:  rank ratio value (0.0 < rr <= 1.0)\n"
+            );
             System.exit(2);
         }
         Map<String, Double> result = null;
@@ -51,7 +56,7 @@ public class OrderStatistics {
                     final String[] columns = line.trim().split(SEPARATOR);
                     final String ID = columns[0];
                     if (prevIDs.contains(ID)) {
-                        throw new RuntimeException("ID \"" + ID + "\" is not unique.");
+                        throw new RuntimeException("\nERROR: ID \"" + ID + "\" is not unique.\n");
                     }
                     for (int idx = 1; idx < columns.length; idx++) {
                         final Double rankRatio = parseRankRatio(columns[idx]);
