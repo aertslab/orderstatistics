@@ -1,7 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+# Remove old class files.
+rm *.class
+
+# Generate new class files.
 javac OrderStatistics.java
+
+# Make jar file.
 jar cvfm OrderStatistics.jar manifest.txt *.class
-# Test:
-java -jar ./OrderStatistics.jar *.rr | sort -gk2 > new.r
-java -classpath ~/tools/OrderStats/OrderStats.jar analysis.OrderStats3 *.rr | sort -gk2 > old.r
-diff new.r old.r
+
+# Test if new version generates the same output than the old one.
+java -jar ./OrderStatistics.jar *.rr | sort -k2,2g -k1,1 > new.r
+diff -u new.r old.r
